@@ -5,3 +5,4 @@ extract_ctrlX_sw_license_from_email/CTRLX SOFTWARE LICENSE/
 extract_ctrlX_sw_license_from_email/*.xlsx
 *.env
 *.xlsx
+openCV/data/

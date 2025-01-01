@@ -3,16 +3,16 @@ import numpy as np
 import matplotlib.pyplot as plt  # For alternative display method
 
 # Load the images
-img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Thesis\code_repo\DCMY_INTERNS\farees\original_spectacle.jpg')
-# img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Thesis\code_repo\DCMY_INTERNS\farees\rotated.jpg')
-# img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Thesis\code_repo\DCMY_INTERNS\farees\translation.jpg')
-# img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Thesis\code_repo\DCMY_INTERNS\farees\none.jpg')
+img_rgb = cv2.imread(r'DCMY_INTERNS\farees\Photos\original_spectacle.jpg')
+# img_rgb = cv2.imread(r'DCMY_INTERNS\farees\Photos\rotated.jpg')
+# img_rgb = cv2.imread(r'C:DCMY_INTERNS\farees\Photos\translation.jpg')
+# img_rgb = cv2.imread(r'DCMY_INTERNS\farees\Photos\none.jpg')
 
 if img_rgb is None:
     print("Error: Original image not found.")
     exit()
 
-template = cv2.imread(r'C:\Users\Predator\Desktop\Thesis\code_repo\DCMY_INTERNS\farees\spectacle.jpeg', 0)
+template = cv2.imread(r'DCMY_INTERNS\farees\Photos\spectacle.jpeg', 0)
 if template is None:
     print("Error: Template image not found.")
     exit()
@@ -57,7 +57,7 @@ if centers:
                 1, (0, 255, 0), 2, cv2.LINE_AA)
 
 # Save the result image
-output_path = r'C:\Users\Predator\Desktop\Thesis\code_repo\DCMY_INTERNS\farees\detected.jpg'
+output_path = r'DCMY_INTERNS\farees\Results\detected.jpg'
 cv2.imwrite(output_path, img_rgb)
 print(f"Image saved successfully at: {output_path}")
 

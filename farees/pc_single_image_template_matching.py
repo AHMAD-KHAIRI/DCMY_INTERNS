@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt  # For alternative display method
 
 # Load the images
-img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Bosch_Rexroth\DCMY_INTERNS\farees\Photos\original_spectacle.jpg')
+img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Bosch_Rexroth\DCMY_INTERNS\farees\Photos\black_original.png')
 # img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Bosch_Rexroth\DCMY_INTERNS\farees\Photos\rotated.jpg')
 # img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Bosch_Rexroth\DCMY_INTERNS\farees\Photos\translation.jpg')
 # img_rgb = cv2.imread(r'C:\Users\Predator\Desktop\Bosch_Rexroth\DCMY_INTERNS\farees\Photos\none.jpg')
@@ -12,7 +12,7 @@ if img_rgb is None:
     print("Error: Original image not found.")
     exit()
 
-template = cv2.imread(r'C:\Users\Predator\Desktop\Bosch_Rexroth\DCMY_INTERNS\farees\Photos\spectacle.jpeg', 0)
+template = cv2.imread(r'C:\Users\Predator\Desktop\Bosch_Rexroth\DCMY_INTERNS\farees\Photos\black_temp.png', 0)
 if template is None:
     print("Error: Template image not found.")
     exit()

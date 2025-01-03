@@ -1,3 +1,4 @@
+import time
 from pypylon import pylon
 import cv2
 import numpy as np
@@ -25,6 +26,11 @@ converter.OutputBitAlignment = pylon.OutputBitAlignment_MsbAligned
 # Threshold for template matching
 threshold = 0.80
 print(f"Threshold value: {threshold}")
+
+# Variables for FPS calculation
+frame_count = 0
+start_time = time.time()
+fps = 0
 
 while camera.IsGrabbing():
     grabResult = camera.RetrieveResult(5000, pylon.TimeoutHandling_ThrowException)
@@ -62,6 +68,21 @@ while camera.IsGrabbing():
         if not centers:
             cv2.putText(frame, "No objects detected", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 
                         1, (0, 0, 255), 2, cv2.LINE_AA)
+
+        # Increment frame count
+        frame_count += 1
+
+        # Calculate FPS every second
+        current_time = time.time()
+        elapsed_time = current_time - start_time
+        if elapsed_time >= 1.0:
+            fps = frame_count / elapsed_time
+            frame_count = 0
+            start_time = current_time
+
+        # Display FPS
+        cv2.putText(frame, f"FPS: {fps:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 
+                    1, (255, 255, 255), 2, cv2.LINE_AA)
 
         # Show the frame with detected matches
         cv2.namedWindow('Template Matching with Basler Camera', cv2.WINDOW_NORMAL)

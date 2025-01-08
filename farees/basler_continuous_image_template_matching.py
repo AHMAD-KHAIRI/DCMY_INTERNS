@@ -15,6 +15,15 @@ w, h = template.shape[::-1]
 # Connecting to the first available Basler camera
 camera = pylon.InstantCamera(pylon.TlFactory.GetInstance().CreateFirstDevice())
 
+# Set the exposure time, gain, width, height, and offsets
+camera.Open()
+camera.ExposureTimeRaw.Value = 7000
+camera.GainRaw.Value = 50
+camera.Width.SetValue(1300)
+camera.Height.SetValue(290)
+camera.OffsetX.SetValue(250)
+camera.OffsetY.SetValue(1200)
+
 # Start grabbing video frames
 camera.StartGrabbing(pylon.GrabStrategy_LatestImageOnly)
 converter = pylon.ImageFormatConverter()
@@ -51,18 +60,22 @@ while camera.IsGrabbing():
         centers = []
         for pt in zip(*loc[::-1]):
             # Draw rectangle
-            cv2.rectangle(frame, pt, (pt[0] + w, pt[1] + h), (0, 255, 255), 2)
+            cv2.rectangle(frame, pt, (pt[0] + w, pt[1] + h), (0, 255, 0), 2)
 
             # Calculate center
             center_x = pt[0] + w // 2
             center_y = pt[1] + h // 2
             centers.append((center_x, center_y))
 
-        # Display the last detected center (if any)
-        if centers:
-            center_x, center_y = centers[-1]
-            cv2.putText(frame, f"({center_x}, {center_y})", (center_x, center_y), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2, cv2.LINE_AA)
+        # Display the centers of all detected objects
+        for center_x, center_y in centers:
+            # Use a fixed size for the background rectangle
+            text = f"({center_x}, {center_y})"
+            text_size = (100, 15)  # Fixed size for the background rectangle
+            cv2.rectangle(frame, (center_x - text_size[0] // 2 - 5, center_y - text_size[1] - 10),
+                           (center_x + text_size[0] // 2 + 5, center_y), (0, 0, 0), -1)  # Black background
+            cv2.putText(frame, text, (center_x - text_size[0] // 2, center_y - 5), 
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 1, cv2.LINE_AA)  # Green text
 
         # Display a message if no objects are detected
         if not centers:
@@ -86,6 +99,7 @@ while camera.IsGrabbing():
 
         # Show the frame with detected matches
         cv2.namedWindow('Template Matching with Basler Camera', cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('Template Matching with Basler Camera', 1300, 290)  # Set the window size to match the camera's width and height
         cv2.imshow('Template Matching with Basler Camera', frame)
 
         # Exit loop if 'q' is pressed
